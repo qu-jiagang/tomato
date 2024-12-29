@@ -3,4 +3,4 @@ dist
 main.spec
 __pycache__
 *.pyc
-
+*.spec

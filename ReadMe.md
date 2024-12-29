@@ -3,6 +3,7 @@
 This project is a lightweight real-time system monitor implemented using PyQt5. It provides a floating window and a system tray icon to display the following system metrics:
 
 - **Network Speed** (upload and download)
+- **RAM Usage**
 - **CPU Usage**
 - **GPU Utilization** (NVIDIA GPUs only)
 - **Disk R&W**
