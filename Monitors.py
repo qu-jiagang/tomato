@@ -130,3 +130,20 @@ class DiskUsageMonitor:
             return f"{speed / 1024:.1f} KB/s"
         else:
             return f"{speed / 1024 ** 2:.1f} MB/s"
+        
+
+class MemoryUsageMonitor:
+    """负责内存使用率的监控和计算"""
+    def get_data(self):
+        """获取当前的内存使用情况"""
+        memory_info = psutil.virtual_memory()
+        return memory_info.used, memory_info.total
+
+    @staticmethod
+    def format_data(memory_size):
+        if memory_size < 1024 ** 2:
+            return f"{int(memory_size)} KB"
+        elif memory_size < 1024 ** 3:
+            return f"{int(memory_size / 1024 ** 2)} MB"
+        else:
+            return f"{int(memory_size / 1024 ** 3)} GB"

@@ -1,12 +1,13 @@
 from PyQt5.QtWidgets import QSystemTrayIcon, QMenu, QAction, QApplication
 from PyQt5.QtGui import QIcon
-from Monitors import NetworkMonitor, CPUUsageMonitor, GPUUsageMonitor, DiskUsageMonitor
+from Monitors import *
 
 register_monitors = {
     "network": NetworkMonitor,
     "cpu": CPUUsageMonitor,
     "gpu": GPUUsageMonitor,
-    "disk": DiskUsageMonitor
+    "disk": DiskUsageMonitor,
+    "memory": MemoryUsageMonitor
 }
 
 
@@ -29,9 +30,13 @@ class TrayIcon(QSystemTrayIcon):
 
     def create_actions(self):
         """创建托盘菜单项"""
-        network_action = QAction("网络", self, checkable=True)
+        network_action = QAction("network", self, checkable=True)
         network_action.toggled.connect(self.on_network_toggled)
         self.menu.addAction(network_action)
+
+        memory_action = QAction("memory", self, checkable=True)
+        memory_action.toggled.connect(self.on_memory_toggled)
+        self.menu.addAction(memory_action)
 
         cpu_action = QAction("CPU", self, checkable=True)
         cpu_action.toggled.connect(self.on_cpu_toggled)
@@ -45,7 +50,7 @@ class TrayIcon(QSystemTrayIcon):
         disk_action.toggled.connect(self.on_disk_toggled)
         self.menu.addAction(disk_action)
 
-        quit_action = QAction("退出", self)
+        quit_action = QAction("exit", self)
         quit_action.triggered.connect(QApplication.quit)
         self.menu.addAction(quit_action)
 
@@ -54,6 +59,13 @@ class TrayIcon(QSystemTrayIcon):
             self.add_action('network')
         else:
             self.remove_action('network')
+        self.parent_window.update_ui()
+
+    def on_memory_toggled(self, state):
+        if state:
+            self.add_action('memory')
+        else:
+            self.remove_action('memory')
         self.parent_window.update_ui()
 
     def on_cpu_toggled(self, state):

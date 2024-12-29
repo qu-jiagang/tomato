@@ -43,6 +43,8 @@ class FloatingWindow(QMainWindow):
             if info == "network":
                 self.upload_speed_label = self.create_label("resources/icons/upload.png", "0.0 KB/s")
                 self.download_speed_label = self.create_label("resources/icons/download.png", "0.0 KB/s")
+            elif info == "memory":
+                self.memory_usage_label = self.create_label("resources/icons/ram.png", "0.0 %", icon_size=(32, 24))
             elif info == "cpu":
                 self.cpu_usage_label = self.create_label("resources/icons/cpu.png", "0.0 %", icon_size=(60, 24))
             elif info == "gpu":
@@ -104,6 +106,11 @@ class FloatingWindow(QMainWindow):
                 upload_speed, download_speed = self.monitor[info].get_data()
                 self.upload_speed_label.setText(self.monitor[info].format_data(upload_speed))
                 self.download_speed_label.setText(self.monitor[info].format_data(download_speed))
+            elif info == "memory":
+                memory_usage, memory_total = self.monitor[info].get_data()
+                self.memory_usage_label.setText(
+                    f"{self.monitor[info].format_data(memory_usage)} / {self.monitor[info].format_data(memory_total)}"
+                )
             elif info == "cpu":
                 cpu_usage = self.monitor[info].get_data()
                 self.cpu_usage_label.setText(self.monitor[info].format_data(cpu_usage))
